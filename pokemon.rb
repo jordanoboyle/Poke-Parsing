@@ -1,35 +1,28 @@
 # just getting some access to free pokemon api
 require "http"
 
-# p pokemon_info.keys
-
-# p pokemon_info["game_indices"]
-# p '------'
-
-# p "this is version?"
-# p pokemon_info["game_indices"][0]["version"]["name"]
-
-# p '------'
-poke_list = (HTTP.get("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0").parse)["results"].map {|species| species["name"]}
-# p poke_list
-
 def which_version()
-  p "Choose a pokemon: "
-  pokemon = gets.chomp.downcase
+  poke_list = (HTTP.get("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0").parse)["results"].map {|species| species["name"]}
   
-  pokemon_info = HTTP.get("https://pokeapi.co/api/v2/pokemon/#{pokemon}/").parse
+  n = true
+  while n == true
+    p "Choose a pokemon: "
+    pokemon = gets.chomp.downcase
+    if poke_list.include?(pokemon)
+      n = false
+    else
+      p "Please try another pokemon" 
+    end
+  end
+  versions_appeared = (HTTP.get("https://pokeapi.co/api/v2/pokemon/#{pokemon}/").parse)["game_indices"].map {|element| element["version"]["name"]}
   
-  versions_appeared = (HTTP.get("https://pokeapi.co/api/v2/pokemon/totodile/").parse)["game_indices"].map {|element| element["version"]["name"]}
- 
   return "#{pokemon.capitalize} appeared in these in: #{versions_appeared.join(", ")}"
 end
 
+p which_version
+
 # dry up versions appeared...
 # map and print version
-
-
-
-
 
 # poke_list["results"]
 # i = 0
