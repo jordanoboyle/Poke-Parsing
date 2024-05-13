@@ -1,4 +1,5 @@
 # just getting some access to free pokemon api
+# What version was the pokemon in?
 require "http"
 
 def which_version()
